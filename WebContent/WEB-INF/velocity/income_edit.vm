@@ -1,0 +1,84 @@
+
+#set ($layout = "WEB-INF/velocity/layout/layout.vm") 
+#set($contextPath = $link.getContextURL() )
+
+ <div id="page-wrapper">
+   <br/>    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Expense
+                </div>              
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="post"  name="incomeForm" modelAttribute="incomeObject" action="${contextPath}/saveIncome.action">
+                    	 <div class="form-group form-group-sm">
+                            <label for="date" class="col-sm-2 control-label">Date</label>
+                            <div class="col-sm-3">
+                            #set($incomeDate = $date.format('yyyy/M/d',$incomeObject.incomeDate))
+                            
+                                <input required type="text" class="form-control" id="incomeDate" name="incomeDate" value="${incomeDate}" >
+                            </div>
+                        </div>  
+                    	
+                    	 <div class="form-group form-group-sm">
+                    	 	
+                            <label for="categoryId" class="col-sm-2 control-label">Category</label>
+                            <div class="col-sm-3">
+                            	
+                                <select class="form-control" id="incomeCategoryId" name="incomeCategoryId">
+								 #foreach( $incomeCategory in $incomeCategories)
+								 	#if(${incomeObject.incomeCategoryId} == $incomeCategory.id )
+										#set($selected = 'selected="selected"')
+		 							#end
+    								<option $selected value="${incomeCategory.id}">$incomeCategory.name</option>
+    							#end
+								</select>
+                            </div>
+                        </div>
+                  
+                        
+                        <div class="form-group form-group-sm">
+                            <label for="description" class="col-sm-2 control-label">Description</label>
+                            <div class="col-sm-3">
+                                <input required type="text" class="form-control" id="description" name="description" value="${incomeObject.description}" >
+                            </div>
+                        </div>  
+                         <div class="form-group form-group-sm">
+                            <label for="price" class="col-sm-2 control-label">Amount</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="amount" name="amount" required value="${incomeObject.amount}">
+                            </div>
+                        </div>  
+                        <div class="form-group form-group-sm">
+                            <div class="col-sm-offset-2 col-sm-10">
+                            	 <input type="hidden" name="id" id="id" value="${incomeObject.id}"/>    	 
+                            	 
+                                 <button type="submit" class="btn btn-default btn-sm" id="submitBtn">Save</button>
+                                 <button type="button" class="btn btn-default btn-sm" id="cancelBtn">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<script type="text/javascript">
+$(document).ready(function() {    
+
+    $('#newCategory').click(function() {
+    	location.href= "${contextPath}/newCategory.action";				
+    });  
+    
+     $(function() {
+    $( "#incomeDate" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy/mm/dd"
+    });
+  });
+    
+} );
+</script>
